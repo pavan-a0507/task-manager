@@ -22,8 +22,6 @@ class Todo(db.Model):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
 
     if request.method == 'POST':
         task_content = request.form['content']
@@ -45,8 +43,8 @@ def index():
 
 @app.route('/delete/<int:id>')
 def delete(id):
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
+
+
     task_to_delete = Todo.query.get_or_404(id)
 
     try:
@@ -60,8 +58,7 @@ def delete(id):
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
-    if not session.get('logged_in'):
-        return redirect(url_for('login'))
+
     task = Todo.query.get_or_404(id)
     if request.method == 'POST':
         task.content = request.form['content']
